@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="https://www.ros.org/wiki/xacro">
-
-    <xacro:macro name="handRobot_description" params="parent *origin">

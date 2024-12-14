@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="https://www.ros.org/wiki/xacro" name="HandRobot">
+    <xacro:include filename="$(find handrobot_ros2_control)/urdf/handrobot_description.urdf.xacro" />  <!-- Why is "description" not required before urdf...? -->
+    
+    <xacro:include filename="$(find handrobot_ros2_control)/ros2_control/handrobot.ros2_control.xacro" />
+
+    <link name="world" />
+
+    <xacro:handrobot_description parent="world">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:handrobot_description>
+
+    <xacro:handrobot_ros2_control name="HandRobot"/>
+
+</robot>

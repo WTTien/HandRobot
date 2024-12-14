@@ -12,7 +12,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_file",
-            default_value = "handRobot.urdf.xacro",
+            default_value = "handrobot.urdf.xacro",
             description = "URDF/XACRO description file with the robot."
         )
     )
@@ -31,7 +31,7 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("handRobot_ros2_control"), "urdf", description_file])
+            PathJoinSubstitution([FindPackageShare("handrobot_ros2_control"), "urdf", description_file])
         ]
     )
     robot_description = {"robot_description:", robot_description_content}

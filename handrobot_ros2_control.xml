@@ -1,0 +1,10 @@
+<library path="handrobot_ros2_control">
+    <class name="handrobot_ros2_control/HandRobotSystemPositionHardware"
+            type="handrobot_ros2_control::HandRobotSystemPositionHardware"
+            base_class_type="hardware_interface::SystemInterface">
+        
+        <description>
+            Hand Robot using a system hardware interface type.
+        </description>
+    </class>
+</library>

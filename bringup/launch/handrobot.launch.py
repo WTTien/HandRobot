@@ -25,9 +25,9 @@ def generate_launch_description():
             " ",
             PathJoinSubstitution(
                 [
-                    FindPackageShare("handRobot_ros2_control"),
+                    FindPackageShare("handrobot_ros2_control"),
                     "urdf",
-                    "handRobot.urdf.xacro"
+                    "handrobot.urdf.xacro"
                 ]
             )
         ]
@@ -36,9 +36,9 @@ def generate_launch_description():
 
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare("handRobot_ros2_control"),
+            FindPackageShare("handrobot_ros2_control"),
             "config",
-            "handRobot_controllers.yaml"
+            "handrobot_controllers.yaml"
         ]
     )
 
