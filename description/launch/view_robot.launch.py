@@ -31,10 +31,12 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare("handrobot_ros2_control"), "urdf", description_file])
+            PathJoinSubstitution([FindPackageShare("handrobot_ros2_control"), "urdf", description_file]),
         ]
     )
-    robot_description = {"robot_description:", robot_description_content}
+    robot_description = {"robot_description": robot_description_content}
+
+    rviz_config_file = PathJoinSubstitution([FindPackageShare("handrobot_ros2_control"), "rviz", "handrobot_view.rviz"])
 
     joint_state_publisher_node = Node (
         package = "joint_state_publisher_gui",
@@ -54,6 +56,7 @@ def generate_launch_description():
         executable = "rviz2",
         name = "rviz2",
         output = "log",
+        arguments=["-d", rviz_config_file],
         condition = IfCondition(gui)
     )
 

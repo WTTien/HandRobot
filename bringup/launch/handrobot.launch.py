@@ -34,6 +34,8 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
+    rviz_config_file = PathJoinSubstitution([FindPackageShare("handrobot_ros2_control"), "rviz", "handrobot_view.rviz"])
+
     robot_controllers = PathJoinSubstitution(
         [
             FindPackageShare("handrobot_ros2_control"),
@@ -64,6 +66,7 @@ def generate_launch_description():
         executable = "rviz2",
         name = "rviz2",
         output = "log",
+        arguments=["-d", rviz_config_file],
         condition = IfCondition(gui)
     )
 

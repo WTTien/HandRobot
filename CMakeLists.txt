@@ -42,7 +42,7 @@ install(
 )
 
 install(
-  DIRECTORY description/launch description/ros2_control description/urdf
+  DIRECTORY description/launch description/ros2_control description/urdf description/meshes description/rviz
   DESTINATION share/handrobot_ros2_control
 )
 

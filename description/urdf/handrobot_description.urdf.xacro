@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="https://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:macro name="handrobot_description" params="parent *origin">
-
-    <xacro:include filename="$(find handrobot_ros2_control)/urdf/create_link.xacro" />
 
     <joint name="base_joint" type="fixed">
         <xacro:insert_block name="origin" />
@@ -13,7 +11,7 @@
 
     <xacro:create_link
         link_name="base_link"
-        xyz_offset="0 0 0"
+        xyz_offset="0 -0.025 0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="FirstPart"
@@ -22,8 +20,8 @@
 
     <joint name="joint1" type="continuous">
         <parent link="base_link" />
-        <child link= "link1" />
-        <origin xyz="0 0.1 0" rpy="0 0 0"/>
+        <child link= "link_1" />
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.7"/>
         <limit effort="300" velocity="3.0"/>
@@ -31,7 +29,7 @@
 
     <xacro:create_link
         link_name="link_1"
-        xyz_offset="0 0 0"
+        xyz_offset="0 -0.02 0.0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="SecondPart"
