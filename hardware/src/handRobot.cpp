@@ -133,11 +133,35 @@ namespace handrobot_ros2_control
 
     hardware_interface::return_type HandRobotSystemPositionHardware::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        std::stringstream ss;
+        ss << "Reading states: ";
+
+        for (uint i = 0; i < hw_states_.size(); i++)
+        {
+            //hw_states_[i] = hw_states_[i] + (hw_commands_[i] - hw_states_[i]) / 100;
+
+            ss << std::fixed << std::setprecision(2) << std::endl << "\t" << hw_states_[i] << " for joint '" << info_.joints[i].name << "'";
+        }
+
+        RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
+
         return hardware_interface::return_type::OK;
     }
 
     hardware_interface::return_type HandRobotSystemPositionHardware::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+
+        std::stringstream ss;
+        ss << "Writing commands: ";
+
+        for (uint i = 0; i < hw_commands_.size(); i++)
+        {
+            hw_states_[i] = hw_states_[i] + (hw_commands_[i] - hw_states_[i]) / 10;
+            ss << std::fixed << std::setprecision(2) << std::endl << "\t" << hw_commands_[i] << " for joint '" << info_.joints[i].name << "'";
+        }
+ 
+        RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
+
         return hardware_interface::return_type::OK;
     }
 }

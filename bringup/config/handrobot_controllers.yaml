@@ -9,10 +9,10 @@ controller_manager:
       type: forward_command_controller/ForwardCommandController
 
 
-  forward_position_controller:
-    ros__parameters:
-      joints:
-        -joint1
-      interface_name: position  
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - joint1
+    interface_name: position  
 
   
