@@ -18,6 +18,7 @@ find_package(ament_cmake REQUIRED)
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
+find_package(std_msgs REQUIRED)
 
 add_library(
   handrobot_ros2_control
@@ -60,4 +61,11 @@ install(TARGETS handrobot_ros2_control
 
 ament_export_targets(export_handrobot_ros2_control HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+
+add_executable(keyboard_controller keyboard_controller/src/keyboard_controller.cpp)
+ament_target_dependencies(keyboard_controller rclcpp std_msgs)
+
+install(TARGETS keyboard_controller DESTINATION lib/${PROJECT_NAME})
+
 ament_package()
