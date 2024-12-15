@@ -156,7 +156,7 @@ namespace handrobot_ros2_control
 
         for (uint i = 0; i < hw_commands_.size(); i++)
         {
-            hw_states_[i] = hw_states_[i] + (hw_commands_[i] - hw_states_[i]) / 100z;
+            hw_states_[i] = hw_states_[i] + (hw_commands_[i] - hw_states_[i]) / 10;
             ss << std::fixed << std::setprecision(2) << std::endl << "\t" << hw_commands_[i] << " for joint '" << info_.joints[i].name << "'";
         }
  
