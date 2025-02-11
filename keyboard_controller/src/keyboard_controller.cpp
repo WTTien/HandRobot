@@ -56,6 +56,7 @@ class KeyboardInputNode : public rclcpp::Node
 				input = getch();
 
 				auto message = std_msgs::msg::Float64MultiArray();
+				
 				if (input == 97) {
 					message.data = {-1.5};
 					publisher_->publish(message);
@@ -64,7 +65,7 @@ class KeyboardInputNode : public rclcpp::Node
 				else if (input == 122) {
 					message.data = {1.5};
 					publisher_->publish(message);
-					RCLCPP_INFO(this->get_logger(), "Published '%.1f'", message.data[0]);
+					RCLCPP_INFO(this->get_logger(), "Published: '%.1f'", message.data[0]);
 				}
 
 				if (input == 'q' || input == 'Q') {
