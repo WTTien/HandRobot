@@ -17,6 +17,70 @@
                 <state_interface name="position"/>
             </joint>
 
+            <joint name="joint2-dm">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint2-mu">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint3-dm">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint3-mu">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint4-dm">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint4-mu">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint5-dm">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+
+            <joint name="joint5-mu">
+                <command_interface name="position">
+                    <param name="min">-1</param>
+                    <param name="max">1</param>
+                </command_interface>
+                <state_interface name="position"/>
+            </joint>
+            
         </ros2_control>
     
     </xacro:macro>

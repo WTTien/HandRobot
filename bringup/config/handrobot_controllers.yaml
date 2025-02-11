@@ -13,6 +13,14 @@ forward_position_controller:
   ros__parameters:
     joints:
       - joint1
-    interface_name: position  
+      - joint2-dm
+      - joint2-mu
+      - joint3-dm
+      - joint3-mu
+      - joint4-dm
+      - joint4-mu
+      - joint5-dm
+      - joint5-mu
+    interface_name: position
 
   
