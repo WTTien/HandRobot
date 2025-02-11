@@ -15,7 +15,7 @@ class KeyboardInputNode : public rclcpp::Node
 {
   public:
 		KeyboardInputNode() : Node("keyboard_input_node") {
-			publisher_ = this->create_publisher<std_msgs::msg::String>("keyboard_input", 10);
+			publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/forward_position_controller/commands", 10);
 			input_thread_ = std::thread(&KeyboardInputNode::getInput, this);
 		}
 
@@ -55,17 +55,17 @@ class KeyboardInputNode : public rclcpp::Node
 				int input;
 				input = getch();
 
-				auto message = std_msgs::msg::String();
+				auto message = std_msgs::msg::Float64MultiArray();
 				if (input == 97) {
-					message.data = "YEET";
+					message.data = {-1.5};
+					publisher_->publish(message);
+					RCLCPP_INFO(this->get_logger(), "Published: '%.1f'", message.data[0]);
 				}
-				else {
-					input = static_cast<char>(input);
-					message.data = std::string(1, input);
+				else if (input == 122) {
+					message.data = {1.5};
+					publisher_->publish(message);
+					RCLCPP_INFO(this->get_logger(), "Published '%.1f'", message.data[0]);
 				}
-
-				publisher_->publish(message);
-				RCLCPP_INFO(this->get_logger(), "Published: '%s'", message.data.c_str());
 
 				if (input == 'q' || input == 'Q') {
 					running = false;
@@ -73,7 +73,7 @@ class KeyboardInputNode : public rclcpp::Node
 			}
 		}
 
-		rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+		rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr publisher_;
 		std::thread input_thread_;
 };
 
