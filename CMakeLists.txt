@@ -19,6 +19,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 add_library(
   handrobot_ros2_control
