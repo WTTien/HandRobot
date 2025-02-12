@@ -19,6 +19,7 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 add_library(
   handrobot_ros2_control
@@ -64,8 +65,11 @@ ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 
 add_executable(keyboard_controller keyboard_controller/src/keyboard_controller.cpp)
+add_executable(joint_position keyboard_controller/src/joint_position.cpp)
 ament_target_dependencies(keyboard_controller rclcpp std_msgs)
+ament_target_dependencies(joint_position rclcpp sensor_msgs)
 
 install(TARGETS keyboard_controller DESTINATION lib/${PROJECT_NAME})
+install(TARGETS joint_position DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
