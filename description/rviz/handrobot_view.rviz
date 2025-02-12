@@ -66,12 +66,72 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
+        five_down:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_1:
+        five_middle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        five_up:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        four_down:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        four_middle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        four_up:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        one_down:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        one_up:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        three_down:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        three_middle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        three_up:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        two_down:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        two_middle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        two_up:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -89,28 +149,19 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz_default_plugins/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
-        link_1:
-          Value: true
-        world:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: false
       Tree:
-        world:
-          base_link:
-            link_1:
-              {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -157,25 +208,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 0.6688864827156067
+      Distance: 0.3824130892753601
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.006142829079180956
+        Y: 0.08777567744255066
+        Z: 0.03514585644006729
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2703979015350342
+      Pitch: 0.7603983879089355
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.133583068847656
+      Yaw: 5.823584079742432
     Saved: ~
 Window Geometry:
   Displays:
@@ -193,5 +244,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 28
-  Y: 28
+  X: -4
+  Y: -4

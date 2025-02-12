@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 10
+    update_rate: 100
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -21,6 +21,8 @@ forward_position_controller:
       - joint4-mu
       - joint5-dm
       - joint5-mu
+    
     interface_name: position
+
 
   
