@@ -5,7 +5,6 @@
 #include <iostream>
 #include <thread>
 #include <atomic>
-#include <mutex>
 #include <string>
 #include <vector>
 
@@ -41,8 +40,6 @@ class JointStateHandlerNode : public rclcpp::Node
 	private:
 		void joint_state_read(const sensor_msgs::msg::JointState::SharedPtr msg)
         {
-			std::lock_guard<std::mutex> lock(mutex_);
-
             std::vector<std::string> names;
             std::vector<double> positions;
 
@@ -94,37 +91,34 @@ class JointStateHandlerNode : public rclcpp::Node
 
 		void getInput() 
 		{
+			float joint1_pos = 0.0;
+			float joint2_dm_pos = 0.0;
+			float joint2_mu_pos = 0.0;
+			float joint3_dm_pos = 0.0;
+			float joint3_mu_pos = 0.0;
+			float joint4_dm_pos = 0.0;
+			float joint4_mu_pos = 0.0;
+			float joint5_dm_pos = 0.0;
+			float joint5_mu_pos = 0.0;
+			
 			while(running) 
 			{
-				std::vector<Joint> new_joints_info;
-				
+				if (joints.empty())
 				{
-					std::lock_guard<std::mutex> lock(mutex_);
-					if (joints.empty())
-					{
-						RCLCPP_WARN(this->get_logger(), "Waiting for joint states...");
-						continue;
-					}
-					new_joints_info = joints;
+					RCLCPP_WARN(this->get_logger(), "Waiting for joint states...");
+					continue;
 				}
 				
-				float joint1_pos = 0.0;
-				float joint2_dm_pos = 0.0;
-				float joint2_mu_pos = 0.0;
-				float joint3_dm_pos = 0.0;
-				float joint3_mu_pos = 0.0;
-				float joint4_dm_pos = 0.0;
-				float joint4_mu_pos = 0.0;
-				float joint5_dm_pos = 0.0;
-				float joint5_mu_pos = 0.0;
-
-				for (size_t i=0; i<new_joints_info.size(); i++)
+				int input;
+				input = getch();
+				
+				for (size_t i=0; i<joints.size(); i++)
 				{
 					std::string name;
 					float pos;
 
-					name = new_joints_info[i].name;
-					pos = new_joints_info[i].position;
+					name = joints[i].name;
+					pos = joints[i].position;
 
 					
 					if (name == "joint1")
@@ -153,12 +147,19 @@ class JointStateHandlerNode : public rclcpp::Node
 
 					else if (name == "joint5-mu")
 					{joint5_mu_pos = pos;}
-
 				}
 
-				
-				int input;
-				input = getch();
+				RCLCPP_INFO(this->get_logger(), "");
+				RCLCPP_INFO(this->get_logger(), "Joint Info:");
+				RCLCPP_INFO(this->get_logger(), "Joint 1		: %f", joint1_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 2 (Down-Middle)	: %f", joint2_dm_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 2 (Middle-Up)	: %f", joint2_mu_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 3 (Down-Middle)	: %f", joint3_dm_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 3 (Middle-Up)	: %f", joint3_mu_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 4 (Down-Middle)	: %f", joint4_dm_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 4 (Middle-Up)	: %f", joint4_mu_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 5 (Down-Middle)	: %f", joint5_dm_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 5 (Middle-Up)	: %f", joint5_mu_pos);
 				
 				switch(input)
 				{
