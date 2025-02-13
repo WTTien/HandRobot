@@ -275,8 +275,6 @@ class JointStateHandlerNode : public rclcpp::Node
 
 		rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscriber_;
 		std::vector<Joint> joints;
-
-		std::mutex mutex_;
 };
 
 int main(int argc, char *argv[]) 
