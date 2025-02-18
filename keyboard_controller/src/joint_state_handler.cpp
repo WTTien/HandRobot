@@ -91,7 +91,7 @@ class JointStateHandlerNode : public rclcpp::Node
 
 		void getInput() 
 		{
-			float joint1_pos = 0.0;
+			float joint1_du_pos = 0.0;
 			float joint2_dm_pos = 0.0;
 			float joint2_mu_pos = 0.0;
 			float joint3_dm_pos = 0.0;
@@ -121,8 +121,8 @@ class JointStateHandlerNode : public rclcpp::Node
 					pos = joints[i].position;
 
 					
-					if (name == "joint1")
-					{joint1_pos = pos;}
+					if (name == "joint1-du")
+					{joint1_du_pos = pos;}
 
 					else if (name == "joint2-dm")
 					{joint2_dm_pos = pos;}
@@ -151,7 +151,7 @@ class JointStateHandlerNode : public rclcpp::Node
 
 				RCLCPP_INFO(this->get_logger(), "");
 				RCLCPP_INFO(this->get_logger(), "Joint Info:");
-				RCLCPP_INFO(this->get_logger(), "Joint 1		: %f", joint1_pos);
+				RCLCPP_INFO(this->get_logger(), "Joint 1		: %f", joint1_du_pos);
 				RCLCPP_INFO(this->get_logger(), "Joint 2 (Down-Middle)	: %f", joint2_dm_pos);
 				RCLCPP_INFO(this->get_logger(), "Joint 2 (Middle-Up)	: %f", joint2_mu_pos);
 				RCLCPP_INFO(this->get_logger(), "Joint 3 (Down-Middle)	: %f", joint3_dm_pos);
@@ -164,11 +164,11 @@ class JointStateHandlerNode : public rclcpp::Node
 				switch(input)
 				{
 					case 97: //a
-						joint1_pos += stepVal;
+						joint1_du_pos += stepVal;
 						break;
 
 					case 122: //z
-						joint1_pos -= stepVal;
+						joint1_du_pos -= stepVal;
 						break;
 
 					case 115: //s
@@ -236,7 +236,7 @@ class JointStateHandlerNode : public rclcpp::Node
 						break;
 
 					default:
-						joint1_pos += 0.0;
+						joint1_du_pos += 0.0;
 						joint2_dm_pos += 0.0;
 						joint2_mu_pos += 0.0;
 						joint3_dm_pos += 0.0;
@@ -248,7 +248,7 @@ class JointStateHandlerNode : public rclcpp::Node
 				}
 				
 				auto message = std_msgs::msg::Float64MultiArray();
-				message.data = {joint1_pos, joint2_dm_pos, joint2_mu_pos, joint3_dm_pos, joint3_mu_pos, joint4_dm_pos, joint4_mu_pos, joint5_dm_pos, joint5_mu_pos};
+				message.data = {joint1_du_pos, joint2_dm_pos, joint2_mu_pos, joint3_dm_pos, joint3_mu_pos, joint4_dm_pos, joint4_mu_pos, joint5_dm_pos, joint5_mu_pos};
 				
 				publisher_->publish(message);
 				RCLCPP_INFO(this->get_logger(), "Published: ");

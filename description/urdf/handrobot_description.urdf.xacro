@@ -3,11 +3,22 @@
 
     <xacro:macro name="handrobot_description" params="parent *origin">
 
-    <joint name="base_joint1" type="fixed">
+    <joint name="base_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link = "${parent}" />
-        <child link = "one_down" />
+        <child link = "base" />
     </joint>
+
+    <xacro:create_link
+        link_name="base"
+        xyz_offset="0 0 0"
+        rpy_offset="0 0 0"
+        mesh_package="handrobot_ros2_control"
+        mesh_name="Base"
+        color="yellow"
+    />
+
+
 
     <joint name="base_joint2" type="fixed">
         <xacro:insert_block name="origin" />
@@ -53,7 +64,13 @@
         color="orange"
     />
 
-    <joint name="joint1" type="continuous">
+    <joint name="joint1-bd" type="fixed">
+        <parent link="base" />
+        <child link= "one_down" />
+        <origin xyz="0 -0.055 0.035" rpy="0.7854 0 0"/>
+    </joint>
+
+    <joint name="joint1-du" type="continuous">
         <parent link="one_down" />
         <child link= "one_up" />
         <origin xyz="0 0 0.035" rpy="0 0 0"/>
@@ -66,7 +83,7 @@
     <!-- Joint 2 -->
     <xacro:create_link
         link_name="two_down"
-        xyz_offset="0 0.04 0"
+        xyz_offset="0 -0.02 0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="TwoDown"
@@ -91,10 +108,16 @@
         color="orange"
     />
 
+    <joint name="joint2-bd" type="fixed">
+        <parent link="base" />
+        <child link= "two_down" />
+        <origin xyz="0 -0.005 0.095" rpy="0.2618 0 0"/>
+    </joint>
+
     <joint name="joint2-dm" type="continuous">
         <parent link="two_down" />
         <child link= "two_middle" />
-        <origin xyz="0 0.04 0.045" rpy="0 0 0"/>
+        <origin xyz="0 -0.02 0.045" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.7"/>
         <limit effort="300" velocity="3.0"/>
@@ -113,7 +136,7 @@
     <!-- Joint 3 -->
     <xacro:create_link
         link_name="three_down"
-        xyz_offset="0 0.08 0"
+        xyz_offset="0 0 0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="ThreeDown"
@@ -138,10 +161,16 @@
         color="orange"
     />
 
+    <joint name="joint3-bd" type="fixed">
+        <parent link="base" />
+        <child link= "three_down" />
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </joint>
+
     <joint name="joint3-dm" type="continuous">
         <parent link="three_down" />
         <child link= "three_middle" />
-        <origin xyz="0 0.08 0.05" rpy="0 0 0"/>
+        <origin xyz="0 0 0.05" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.7"/>
         <limit effort="300" velocity="3.0"/>
@@ -160,7 +189,7 @@
     <!-- Joint 4 -->
     <xacro:create_link
         link_name="four_down"
-        xyz_offset="0 0.12 0"
+        xyz_offset="0 0 0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="FourDown"
@@ -185,10 +214,16 @@
         color="orange"
     />
 
+    <joint name="joint4-bd" type="fixed">
+        <parent link="base" />
+        <child link= "four_down" />
+        <origin xyz="0 0.025 0.095" rpy="-0.2618 0 0"/>
+    </joint>
+
     <joint name="joint4-dm" type="continuous">
         <parent link="four_down" />
         <child link= "four_middle" />
-        <origin xyz="0 0.12 0.045" rpy="0 0 0"/>
+        <origin xyz="0 0 0.045" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.7"/>
         <limit effort="300" velocity="3.0"/>
@@ -207,7 +242,7 @@
     <!-- Joint 5 -->
     <xacro:create_link
         link_name="five_down"
-        xyz_offset="0 0.16 0"
+        xyz_offset="0 0 0"
         rpy_offset="0 0 0"
         mesh_package="handrobot_ros2_control"
         mesh_name="FiveDown"
@@ -232,10 +267,16 @@
         color="orange"
     />
 
+    <joint name="joint5-bd" type="fixed">
+        <parent link="base" />
+        <child link= "five_down" />
+        <origin xyz="0 0.045 0.085" rpy="-0.524 0 0"/>
+    </joint>
+
     <joint name="joint5-dm" type="continuous">
         <parent link="five_down" />
         <child link= "five_middle" />
-        <origin xyz="0 0.16 0.04" rpy="0 0 0"/>
+        <origin xyz="0 0 0.04" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <dynamics damping="0.7"/>
         <limit effort="300" velocity="3.0"/>

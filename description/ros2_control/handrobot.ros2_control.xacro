@@ -9,7 +9,7 @@
                 <plugin>handrobot_ros2_control/HandRobotSystemPositionHardware</plugin>
             </hardware>
 
-            <joint name="joint1">
+            <joint name="joint1-du">
                 <command_interface name="position">
                     <param name="min">-1</param>
                     <param name="max">1</param>
