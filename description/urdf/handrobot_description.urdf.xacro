@@ -19,32 +19,6 @@
     />
 
 
-
-    <joint name="base_joint2" type="fixed">
-        <xacro:insert_block name="origin" />
-        <parent link = "${parent}" />
-        <child link = "two_down" />
-    </joint>
-
-    <joint name="base_joint3" type="fixed">
-        <xacro:insert_block name="origin" />
-        <parent link = "${parent}" />
-        <child link = "three_down" />
-    </joint>
-
-    <joint name="base_joint4" type="fixed">
-        <xacro:insert_block name="origin" />
-        <parent link = "${parent}" />
-        <child link = "four_down" />
-    </joint>
-
-    <joint name="base_joint5" type="fixed">
-        <xacro:insert_block name="origin" />
-        <parent link = "${parent}" />
-        <child link = "five_down" />
-    </joint>
-
-
     <!-- Joint 1 -->
     <xacro:create_link
         link_name="one_down"
