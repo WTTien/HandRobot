@@ -2,6 +2,8 @@ To run:
 
 Head to the root folder (The one having build, install, log, and src)
 ```
+source /opt/ros/humble/setup.bash
+colcon build
 source install/setup.bash
 ```
 
@@ -16,6 +18,7 @@ ros2 run handrobot_ros2_control camera_controller
 ```
 
 (Copy RunAtWindows/mediapipe_hand/main.py to Windows and run it)
+
 In Windows - where mediapipe_hand/main.py file is located:
 ```
 python3 main.py
