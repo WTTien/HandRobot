@@ -19,18 +19,18 @@ fingertip_indices = [4, 8, 12, 16, 20]
 
 
 # DISPLAY BENT DEGREE FOR EACH JOINT
-thumb_indices = [2,3,4]
-index_indices = [5,6,7]
-middle_indices = [9,10,11]
-ring_indices = [13,14,15]
-pinky_indices = [17,18,19]
+# thumb_indices = [2,3,4]
+# index_indices = [5,6,7]
+# middle_indices = [9,10,11]
+# ring_indices = [13,14,15]
+# pinky_indices = [17,18,19]
 
-finger_indices = {
-    "thumb": thumb_indices,
-    "index": index_indices,
-    "middle": middle_indices,
-    "ring": ring_indices,
-    "pinky": pinky_indices
+joint_indices = {
+    "thumb": [2,3],
+    "index": [5,6,7],
+    "middle": [9,10,11],
+    "ring": [13,14,15],
+    "pinky": [17,18,19]
 }
 
 UDP_IP = "172.21.249.248"
@@ -141,31 +141,52 @@ with mp_hands.Hands(
                 b=[]
                 c=[]
 
-                for finger,indices in finger_indices.items():
-                    landmark1 = hand_landmarks.landmark[indices[0]]
-                    landmark2 = hand_landmarks.landmark[indices[1]]
-                    landmark3 = hand_landmarks.landmark[indices[2]]
+                for finger,indices in joint_indices.items():
+                    
+                    for i in range (0,len(indices)):
+                        if(len(indices) == 3) and (i == 0):
+                            landmark1 = hand_landmarks.landmark[0]
+                        else:
+                            landmark1 = hand_landmarks.landmark[indices[i] - 1]
+                
+                        landmark2 = hand_landmarks.landmark[indices[i]]
+                        landmark3 = hand_landmarks.landmark[indices[i] + 1]
 
-                    a.append([landmark1.x,landmark1.y,landmark1.z])
-                    b.append([landmark2.x,landmark2.y,landmark2.z])
-                    c.append([landmark3.x,landmark3.y,landmark3.z])
+                        a.append([landmark1.x,landmark1.y,landmark1.z])
+                        b.append([landmark2.x,landmark2.y,landmark2.z])
+                        c.append([landmark3.x,landmark3.y,landmark3.z])
 
                 bent_degree = calculate_angle(a,b,c)
                 udp_message = []
-                # for i, (finger,indices) in enumerate(finger_indices.items()):
-                for i in range(len(finger_indices.items())):
+
+                display_positions = {
+                    "thumb": (10, 30),
+                    "index": (110, 30),
+                    "middle": (210, 30),
+                    "ring": (310, 30),
+                    "pinky": (410, 30)
+                }
+                line_height = 20
+
+                i = 0
+                # for i, (finger,indices) in enumerate(joint_indices.items()):
+                for finger,indices in joint_indices.items():
                 
-                    displayDegree = hand_landmarks.landmark[fingertip_indices[i]]
+                    # displayDegree = hand_landmarks.landmark[fingertip_indices[i]]
 
-                    h, w, _ = frame.shape
-                    x = int(displayDegree.x * w)
-                    y = int(displayDegree.y * h)
-                    z = displayDegree.z
+                    # h, w, _ = frame.shape
+                    # x = int(displayDegree.x * w)
+                    # y = int(displayDegree.y * h)
+                    # z = displayDegree.z
 
-                    bent_degree_text = f"{bent_degree[i]:.2f}"
-                    cv2.putText(frame, bent_degree_text, (x-10 , y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-                    
-                    udp_message.append(bent_degree_text)
+                    text_x, text_y = display_positions[finger]
+
+                    for j in range(len(indices)):
+                        bent_degree_text = f"{bent_degree[i]:.2f}"
+                        cv2.putText(frame, bent_degree_text, (text_x, text_y + j*line_height), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                        udp_message.append(bent_degree_text)
+
+                        i += 1
                     # sock.sendto(bent_degree_text.encode(), (UDP_IP, UDP_PORT))
                     # print(bent_degree_text)
                 
