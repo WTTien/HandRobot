@@ -33,31 +33,45 @@ class JointStateHandlerNode : public rclcpp::Node
                 return deg * M_PI / 180.0;
             });
             
-            float joint1_du_pos = positions[0];
-			float joint2_dm_pos = positions[1];
-			float joint2_mu_pos = 0.0;
-			float joint3_dm_pos = positions[2];
-			float joint3_mu_pos = 0.0;
-			float joint4_dm_pos = positions[3];
-			float joint4_mu_pos = 0.0;
-			float joint5_dm_pos = positions[4];
-			float joint5_mu_pos = 0.0;
+            float joint1_bd_pos = positions[0];
+            float joint1_du_pos = positions[1];
+            float joint2_bd_pos = positions[2];
+			float joint2_dm_pos = positions[3];
+			float joint2_mu_pos = positions[4];
+            float joint3_bd_pos = positions[5];
+			float joint3_dm_pos = positions[6];
+			float joint3_mu_pos = positions[7];
+            float joint4_bd_pos = positions[8];
+			float joint4_dm_pos = positions[9];
+			float joint4_mu_pos = positions[10];
+            float joint5_bd_pos = positions[11];
+			float joint5_dm_pos = positions[12];
+			float joint5_mu_pos = positions[13];
             
             auto out_msg = std_msgs::msg::Float64MultiArray();
-            out_msg.data = {joint1_du_pos, joint2_dm_pos, joint2_mu_pos, joint3_dm_pos, joint3_mu_pos, joint4_dm_pos, joint4_mu_pos, joint5_dm_pos, joint5_mu_pos};
+            out_msg.data = {joint1_bd_pos, joint1_du_pos, 
+                            joint2_bd_pos, joint2_dm_pos, joint2_mu_pos, 
+                            joint3_bd_pos, joint3_dm_pos, joint3_mu_pos, 
+                            joint4_bd_pos, joint4_dm_pos, joint4_mu_pos, 
+                            joint5_bd_pos, joint5_dm_pos, joint5_mu_pos};
             
             publisher_->publish(out_msg);
 				
 
             RCLCPP_INFO(this->get_logger(), "");
             RCLCPP_INFO(this->get_logger(), "Joint Info:");
-            RCLCPP_INFO(this->get_logger(), "Joint 1		: %f", joint1_du_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 1 (Base-Down)	: %f", joint1_bd_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 1 (Down-Up)		: %f", joint1_du_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 2 (Base-Down)	: %f", joint2_bd_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 2 (Down-Middle)	: %f", joint2_dm_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 2 (Middle-Up)	: %f", joint2_mu_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 3 (Base-Down)	: %f", joint3_bd_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 3 (Down-Middle)	: %f", joint3_dm_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 3 (Middle-Up)	: %f", joint3_mu_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 4 (Base-Down)	: %f", joint4_bd_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 4 (Down-Middle)	: %f", joint4_dm_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 4 (Middle-Up)	: %f", joint4_mu_pos);
+            RCLCPP_INFO(this->get_logger(), "Joint 5 (Base-Down)	: %f", joint5_bd_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 5 (Down-Middle)	: %f", joint5_dm_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 5 (Middle-Up)	: %f", joint5_mu_pos);
 			

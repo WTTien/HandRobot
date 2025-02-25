@@ -12,13 +12,18 @@ controller_manager:
 forward_position_controller:
   ros__parameters:
     joints:
+      - joint1-bd
       - joint1-du
+      - joint2-bd
       - joint2-dm
       - joint2-mu
+      - joint3-bd
       - joint3-dm
       - joint3-mu
+      - joint4-bd
       - joint4-dm
       - joint4-mu
+      - joint5-bd
       - joint5-dm
       - joint5-mu
     

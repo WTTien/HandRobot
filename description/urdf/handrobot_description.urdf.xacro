@@ -38,10 +38,13 @@
         color="orange"
     />
 
-    <joint name="joint1-bd" type="fixed">
+    <joint name="joint1-bd" type="continuous">
         <parent link="base" />
         <child link= "one_down" />
         <origin xyz="0 -0.055 0.035" rpy="0.7854 0 0"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.7"/>
+        <limit effort="300" velocity="3.0"/>
     </joint>
 
     <joint name="joint1-du" type="continuous">
@@ -82,10 +85,13 @@
         color="orange"
     />
 
-    <joint name="joint2-bd" type="fixed">
+    <joint name="joint2-bd" type="continuous">
         <parent link="base" />
         <child link= "two_down" />
         <origin xyz="0 -0.005 0.095" rpy="0.2618 0 0"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.7"/>
+        <limit effort="300" velocity="3.0"/>
     </joint>
 
     <joint name="joint2-dm" type="continuous">
@@ -135,10 +141,13 @@
         color="orange"
     />
 
-    <joint name="joint3-bd" type="fixed">
+    <joint name="joint3-bd" type="continuous">
         <parent link="base" />
         <child link= "three_down" />
         <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.7"/>
+        <limit effort="300" velocity="3.0"/>
     </joint>
 
     <joint name="joint3-dm" type="continuous">
@@ -188,10 +197,13 @@
         color="orange"
     />
 
-    <joint name="joint4-bd" type="fixed">
+    <joint name="joint4-bd" type="continuous">
         <parent link="base" />
         <child link= "four_down" />
         <origin xyz="0 0.025 0.095" rpy="-0.2618 0 0"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.7"/>
+        <limit effort="300" velocity="3.0"/>
     </joint>
 
     <joint name="joint4-dm" type="continuous">
@@ -241,10 +253,13 @@
         color="orange"
     />
 
-    <joint name="joint5-bd" type="fixed">
+    <joint name="joint5-bd" type="continuous">
         <parent link="base" />
         <child link= "five_down" />
         <origin xyz="0 0.045 0.085" rpy="-0.524 0 0"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.7"/>
+        <limit effort="300" velocity="3.0"/>
     </joint>
 
     <joint name="joint5-dm" type="continuous">
