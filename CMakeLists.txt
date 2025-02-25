@@ -73,8 +73,16 @@ ament_target_dependencies(joint_position rclcpp sensor_msgs)
 add_executable(joint_state_handler keyboard_controller/src/joint_state_handler.cpp)
 ament_target_dependencies(joint_state_handler rclcpp std_msgs sensor_msgs)
 
+add_executable(udp_data_reader udp_data_reader/src/udp_data_reader.cpp)
+ament_target_dependencies(udp_data_reader rclcpp std_msgs)
+
+add_executable(camera_controller camera_controller/src/camera_controller.cpp)
+ament_target_dependencies(camera_controller rclcpp std_msgs)
+
 install(TARGETS keyboard_controller DESTINATION lib/${PROJECT_NAME})
 install(TARGETS joint_position DESTINATION lib/${PROJECT_NAME})
 install(TARGETS joint_state_handler DESTINATION lib/${PROJECT_NAME})
+install(TARGETS udp_data_reader DESTINATION lib/${PROJECT_NAME})
+install(TARGETS camera_controller DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
