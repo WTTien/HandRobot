@@ -7,6 +7,9 @@ import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as mp_drawing
 import mediapipe.python.solutions.drawing_styles as mp_drawing_styles
 
+from dotenv import load_dotenv
+import os
+
 cap = cv2.VideoCapture(0)
 
 # DISPLAY COORDINATES
@@ -33,8 +36,6 @@ joint_indices = {
     "pinky": [17,18,19]
 }
 
-UDP_IP = "172.21.249.248"
-UDP_PORT = 5005
 
 
 def calculate_angle(a, b, c):
@@ -65,6 +66,12 @@ def calculate_angle(a, b, c):
     angle_degrees = np.degrees(angle_radians)
 
     return angle_degrees
+
+
+
+load_dotenv()
+UDP_IP = os.getenv("UDP_IP")
+UDP_PORT = int(os.getenv("UDP_PORT"))
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

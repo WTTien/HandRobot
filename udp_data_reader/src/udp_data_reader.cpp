@@ -6,13 +6,12 @@
 #include <netinet/in.h>
 #include <unistd.h>
 
-#define PORT 5005
 #define BUFFER_SIZE 1024
 
 class UdpReceiverNode : public rclcpp::Node
 {
     public:
-        UdpReceiverNode() : Node("udp_receiver_node"){
+        UdpReceiverNode(int port) : Node("udp_receiver_node"), port_(port) {
             publisher_ = this->create_publisher<std_msgs::msg::String>("camera_data", 10);
             setup_socket();
             receive_data();
@@ -34,7 +33,7 @@ class UdpReceiverNode : public rclcpp::Node
 
             serv_addr.sin_family = AF_INET;
             serv_addr.sin_addr.s_addr = INADDR_ANY;
-            serv_addr.sin_port = htons(PORT);
+            serv_addr.sin_port = htons(port_);
 
             if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){
                 RCLCPP_ERROR(this->get_logger(), "Socket bind failed.");
@@ -42,7 +41,7 @@ class UdpReceiverNode : public rclcpp::Node
                 rclcpp::shutdown();
             }
 
-            RCLCPP_INFO(this->get_logger(), "Listening for UDP packets on port %d...", PORT);
+            RCLCPP_INFO(this->get_logger(), "Listening for UDP packets on port %d...", port_);
         }
 
         void receive_data(){
@@ -64,6 +63,7 @@ class UdpReceiverNode : public rclcpp::Node
         }
         
         int sockfd;
+        int port_;
         struct sockaddr_in serv_addr, cli_addr;
         socklen_t addrLen = sizeof(cli_addr);
         rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
@@ -71,7 +71,23 @@ class UdpReceiverNode : public rclcpp::Node
 
 int main(int argc, char** argv){
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<UdpReceiverNode>());
+
+    if (argc < 2)
+    {
+        std::cerr << "Error: Missing port number argument. \n";
+        std::cout << "Usage: ros2 run handrobot_ros2_control udp_data_reader <port_number>\n"
+                    << "Example: ros2 run handrobot_ros2_control udp_data_reader 5005\n";
+        return 1;
+    }
+
+    int port = atoi(argv[1]);
+    if (port <= 0 || port > 65535)
+    {
+        std::cerr << "Error: Invalid port number. Port number must be smaller than 65535. \n";
+        return 1;
+    }
+
+    rclcpp::spin(std::make_shared<UdpReceiverNode>(port));
     rclcpp::shutdown();
     return 0;
 }
