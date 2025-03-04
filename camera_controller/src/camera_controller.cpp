@@ -9,12 +9,12 @@
 #include <algorithm>
 #include <cmath>
 
-class JointStateHandlerNode : public rclcpp::Node 
+class CameraControllerNode : public rclcpp::Node 
 {
   	public:
-		JointStateHandlerNode() : Node("joint_state_handler") 
+		CameraControllerNode() : Node("camera_controller") 
 		{
-            subscriber_ = this->create_subscription<std_msgs::msg::String>("/camera_data", 10, std::bind(&JointStateHandlerNode::joint_control, this, std::placeholders::_1));
+            subscriber_ = this->create_subscription<std_msgs::msg::String>("/camera_data", 10, std::bind(&CameraControllerNode::joint_control, this, std::placeholders::_1));
 			publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/forward_position_controller/commands", 10);
 		}
 
@@ -84,7 +84,7 @@ class JointStateHandlerNode : public rclcpp::Node
 int main(int argc, char *argv[]) 
 {
 	rclcpp::init(argc, argv);
-	rclcpp::spin(std::make_shared<JointStateHandlerNode>());
+	rclcpp::spin(std::make_shared<CameraControllerNode>());
 	rclcpp::shutdown();
 	return 0;
 }
