@@ -15,19 +15,7 @@ cap = cv2.VideoCapture(0)
 # DISPLAY COORDINATES
 fingertip_indices = [4, 8, 12, 16, 20]
 
-# EXAMPLE TO DISPLAY BENT DEGREE
-# index_mcp = 5
-# index_pip = 6
-# index_dip = 7
-
-
-# DISPLAY BENT DEGREE FOR EACH JOINT
-# thumb_indices = [2,3,4]
-# index_indices = [5,6,7]
-# middle_indices = [9,10,11]
-# ring_indices = [13,14,15]
-# pinky_indices = [17,18,19]
-
+# TARGET JOINTS
 joint_indices = {
     "thumb": [2,3],
     "index": [5,6,7],
@@ -37,13 +25,8 @@ joint_indices = {
 }
 
 
-
 def calculate_angle(a, b, c):
-    
-    # EXAMPLE TO DISPLAY BENT DEGREE
-    # AB = np.array([b[0] - a[0], b[1] - a[1], b[2] - a[2]])
-    # BC = np.array([c[0] - b[0], c[1] - b[1], c[2] - b[2]])
-    
+
     a = np.array(a)
     b = np.array(b)
     c = np.array(c)
@@ -68,13 +51,12 @@ def calculate_angle(a, b, c):
     return angle_degrees
 
 
-
 load_dotenv()
 UDP_IP = os.getenv("UDP_IP")
 UDP_PORT = int(os.getenv("UDP_PORT"))
 
-
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
 
 with mp_hands.Hands(
     model_complexity=0,
@@ -89,10 +71,13 @@ with mp_hands.Hands(
         if not success:
             print("Ignoring empty camera frame...")
             continue
-
+        
+        # Flip the image horizontally
         frame = cv2.flip(frame, 1)
-
+        # Convert default BGR image to RGB image for mediapipe processing
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Mediapipe processing
         results = hands.process(frame_rgb)
 
         if results.multi_hand_landmarks is None:
@@ -125,29 +110,18 @@ with mp_hands.Hands(
                 #     z = landmark.z
 
                 #     text = f"{idx}: ({x} , {y}, {z:.2f})"
-                #     cv2.putText(frame, text, (x + 5, y + 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
-
-                
-                # EXAMPLE TO DISPLAY BENT DEGREE
-                # mcp_landmark = hand_landmarks.landmark[index_mcp]
-                # pip_landmark = hand_landmarks.landmark[index_pip]
-                # dip_landmark = hand_landmarks.landmark[index_dip]
-
-                # a = [mcp_landmark.x, mcp_landmark.y, mcp_landmark.z]
-                # b = [pip_landmark.x, pip_landmark.y, pip_landmark.z]
-                # c = [dip_landmark.x, dip_landmark.y, dip_landmark.z]
-
-                # bent_degree = calculate_angle(a,b,c)
-                # bent_degree_text = f"Bent Degree: {bent_degree:.2f}°"
-                # cv2.putText(frame, bent_degree_text, (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
-
-                
+                #     cv2.putText(frame, text, (x + 5, y + 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)               
                 
                 # DISPLAY BENT DEGREE FOR EACH JOINT
                 a=[]
                 b=[]
                 c=[]
 
+                # DETERMINE WHICH JOINTS INVOLVED TO CALCULATE EACH JOINT BENT DEGREE
+                # Example:
+                # TARGET JOINTS: 2. JOINTS INVOLVED: 1(a), 2(b), 3(c)
+                # TARGET JOINTS: 6. JOINTS INVOLVED: 5(a), 6(b), 7(c)
+                # (Joint number based on mediapipe numbering)
                 for finger,indices in joint_indices.items():
                     
                     for i in range (0,len(indices)):
@@ -163,9 +137,14 @@ with mp_hands.Hands(
                         b.append([landmark2.x,landmark2.y,landmark2.z])
                         c.append([landmark3.x,landmark3.y,landmark3.z])
 
+                # CARRY OUT CALCULATIONS
                 bent_degree = calculate_angle(a,b,c)
-                udp_message = []
+                
+                
+                i = 0
 
+                udp_message = []
+                
                 display_positions = {
                     "thumb": (10, 30),
                     "index": (110, 30),
@@ -175,31 +154,27 @@ with mp_hands.Hands(
                 }
                 line_height = 20
 
-                i = 0
-                # for i, (finger,indices) in enumerate(joint_indices.items()):
+                # LOOP THROUGH EACH JOINT BENT DEGREE, 
+                # APPEND TO udp_message[]
+                # and DISPLAY ON THE SCREEN
+
                 for finger,indices in joint_indices.items():
-                
-                    # displayDegree = hand_landmarks.landmark[fingertip_indices[i]]
-
-                    # h, w, _ = frame.shape
-                    # x = int(displayDegree.x * w)
-                    # y = int(displayDegree.y * h)
-                    # z = displayDegree.z
-
-                    text_x, text_y = display_positions[finger]
-
                     for j in range(len(indices)):
+                        
                         bent_degree_text = f"{bent_degree[i]:.2f}"
-                        cv2.putText(frame, bent_degree_text, (text_x, text_y + j*line_height), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+
+                        # APPEND TO udp_message[]
                         udp_message.append(bent_degree_text)
 
+                        # DISPLAY ON THE SCREEN
+                        text_x, text_y = display_positions[finger]
+                        cv2.putText(frame, bent_degree_text, (text_x, text_y + j*line_height), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
+                        
                         i += 1
-                    # sock.sendto(bent_degree_text.encode(), (UDP_IP, UDP_PORT))
-                    # print(bent_degree_text)
-                
+
+                # SEND UDP MESSAGE
                 udp_message = ",".join(udp_message)
                 sock.sendto(udp_message.encode(), (UDP_IP, UDP_PORT))
-
 
 
         cv2.imshow("Hand Tracking", frame)
