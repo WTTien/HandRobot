@@ -11,15 +11,15 @@
 
 class CameraControllerNode : public rclcpp::Node 
 {
-  	public:
-		CameraControllerNode() : Node("camera_controller") 
-		{
+      public:
+        CameraControllerNode() : Node("camera_controller") 
+        {
             subscriber_ = this->create_subscription<std_msgs::msg::String>("/camera_data", 10, std::bind(&CameraControllerNode::joint_control, this, std::placeholders::_1));
-			publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/forward_position_controller/commands", 10);
-		}
+            publisher_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/forward_position_controller/commands", 10);
+        }
 
-	private:
-		void joint_control(const std_msgs::msg::String::SharedPtr in_msg)
+    private:
+        void joint_control(const std_msgs::msg::String::SharedPtr in_msg)
         {
             std::istringstream ss(in_msg->data);
             std::string token;
@@ -36,17 +36,17 @@ class CameraControllerNode : public rclcpp::Node
             float joint1_bd_pos = positions[0];
             float joint1_du_pos = positions[1];
             float joint2_bd_pos = positions[2];
-			float joint2_dm_pos = positions[3];
-			float joint2_mu_pos = positions[4];
+            float joint2_dm_pos = positions[3];
+            float joint2_mu_pos = positions[4];
             float joint3_bd_pos = positions[5];
-			float joint3_dm_pos = positions[6];
-			float joint3_mu_pos = positions[7];
+            float joint3_dm_pos = positions[6];
+            float joint3_mu_pos = positions[7];
             float joint4_bd_pos = positions[8];
-			float joint4_dm_pos = positions[9];
-			float joint4_mu_pos = positions[10];
+            float joint4_dm_pos = positions[9];
+            float joint4_mu_pos = positions[10];
             float joint5_bd_pos = positions[11];
-			float joint5_dm_pos = positions[12];
-			float joint5_mu_pos = positions[13];
+            float joint5_dm_pos = positions[12];
+            float joint5_mu_pos = positions[13];
             
             auto out_msg = std_msgs::msg::Float64MultiArray();
             out_msg.data = {joint1_bd_pos, joint1_du_pos, 
@@ -56,7 +56,7 @@ class CameraControllerNode : public rclcpp::Node
                             joint5_bd_pos, joint5_dm_pos, joint5_mu_pos};
             
             publisher_->publish(out_msg);
-				
+                
 
             RCLCPP_INFO(this->get_logger(), "");
             RCLCPP_INFO(this->get_logger(), "Joint Info:");
@@ -74,17 +74,17 @@ class CameraControllerNode : public rclcpp::Node
             RCLCPP_INFO(this->get_logger(), "Joint 5 (Base-Down)	: %f", joint5_bd_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 5 (Down-Middle)	: %f", joint5_dm_pos);
             RCLCPP_INFO(this->get_logger(), "Joint 5 (Middle-Up)	: %f", joint5_mu_pos);
-			
+            
         }
 
-		rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr publisher_;
-		rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
+        rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr publisher_;
+        rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
 };
 
 int main(int argc, char *argv[]) 
 {
-	rclcpp::init(argc, argv);
-	rclcpp::spin(std::make_shared<CameraControllerNode>());
-	rclcpp::shutdown();
-	return 0;
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<CameraControllerNode>());
+    rclcpp::shutdown();
+    return 0;
 }
